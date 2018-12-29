@@ -1,0 +1,17 @@
+{% extends "templates/base.html" %}
+
+{% block title %}{{ block.super }}Login Verify {% endblock %}
+
+{% block content %}
+	
+<div class="display-4" align="center">
+	<h1>A verification mail has been sent to your registered mail id.<br>
+		Kindly verify yourself.
+	</h1>
+	<form method="POST"> {% csrf_token %}
+		Pin: <input type="number" name="num">
+		<input type="submit" value="Verify" class="btn btn-outline-success">
+	</form>
+</div>
+
+{% endblock %}

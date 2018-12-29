@@ -1,0 +1,12 @@
+{% extends "templates/base.html" %}
+
+{% block title %}{{ block.super }}Logged Out {% endblock %}
+
+{% block content %}
+	
+	<div class="display-4" align="center">
+		You have been successfully <b>Logged Out</b><br>
+		Do <a href="/login">Login</a> again
+	</div>
+
+{% endblock %}

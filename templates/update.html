@@ -1,0 +1,18 @@
+{% extends "templates/base.html" %}
+{% block title %}{{ block.super }} Update {% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+	{{ errors }}
+{% endif %}
+
+<div align="center">
+	<form method='POST' style="font-size: 120%; width: 30%;"> 
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" class="btn btn-outline-primary btn-block" value="Update">
+	</form>
+</div>
+
+{% endblock %}

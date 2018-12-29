@@ -1,0 +1,63 @@
+{% extends "templates/base.html" %}
+
+{% block title %}{{ block.super }}Home{% endblock %}
+{% block content %}
+	<div align="center">
+		<form method="GET">
+			<input type="text" name="q" placeholder="%d-%m-%Y for dates">
+			<input type="submit" value="Search" class="btn btn-primary"> 
+		</form>
+	</div><br>
+
+	<div align="center">
+	{% if flag %}
+		{% for i in search_result %}
+			<h2><a href='{% url "asset:detail" i %}'>{{ i }}</a></h2><br>
+		{% endfor %}
+	{% else %}
+		<h3 class="text-danger">Sorry, couldn't find your query</h3>
+	{% endif %}
+	</div><br>
+
+	{% if object_list|length != 0 %}
+	<table class="table table-hover">
+		<thead class="table-dark">
+			<th>Asset ID</th>
+			<th>Location</th>
+			<th>Department</th>
+			<th>Category</th>
+			<th>Username</th>
+			<th>Hostname</th>
+			<th>Email ID</th>
+			<th>Asset Code</th>
+		</thead>
+		<tbody class="table-primary">
+			{% for obj in object_list %}
+			<tr>
+				<td><a href="/a/{{ obj.asset_id }}">{{ obj.asset_id }}</a></td>
+				<td>{{ obj.location }}</td>
+				<td>{{ obj.department }}</td>
+				<td>
+					{% if obj.category == "Desktop" or obj.category == "Laptop" %}
+						<span class="badge badge-pill badge-warning">{{ obj.category }}</span>
+					{% elif obj.category == "Router" or obj.category == "Modem" or obj.category == "Switch" %}
+						<span class="badge badge-pill badge-success">{{ obj.category }}</span>
+					{% elif obj.category == "Printer" or obj.category == "Scanner" %}
+						<span class="badge badge-pill badge-primary">{{ obj.category }}</span>
+					{% elif obj.category == "Mouse" or obj.category == "Keyboard" %}
+						<span class="badge badge-pill badge-danger">{{ obj.category }}</span>
+					{% else %}
+						<span class="badge badge-pill badge-dark">{{ obj.category }}</span>
+					{% endif %}
+				</td>
+				<td>{{ obj.username }}</td>
+				<td>{{ obj.hostname }}</td>
+				<td>{{ obj.email_id }}</td>
+				<td>{{ obj.asset_code }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	{% else %}
+	<h1 class="display-4 text-center">There is nothing to show, <a href="{% url 'asset:create' %}">Add one</a></h1>
+	{% endif %}
+{% endblock %}

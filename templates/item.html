@@ -1,0 +1,42 @@
+{% extends "templates/base.html" %}
+
+{% block title %}{{ block.super }} {{ object.asset_id }} {% endblock %}
+
+{% block content %} 
+
+<div align="center">
+	<a href="{% url 'asset:update' object.asset_id %}" class="badge badge-pill badge-warning" style="font-size: 150%">Update</a>
+	<a href="{% url 'asset:delete' object.asset_id %}" class="badge badge-pill badge-danger" style="font-size: 150%">Delete</a>
+</div>
+
+<div class="text-justify container">
+	<h1>Asset ID: <span class="text-primary">{{ object.asset_id }}</span></h1>
+	<h2>Category:
+		{% if object.category == "Desktop" or object.category == "Laptop" %}
+						<span class="badge badge-pill badge-warning">{{ object.category }}</span>
+					{% elif object.category == "Router" or object.category == "Modem" or object.category == "Switch" %}
+						<span class="badge badge-pill badge-success">{{ object.category }}</span>
+					{% elif object.category == "Printer" or object.category == "Scanner" %}
+						<span class="badge badge-pill badge-primary">{{ object.category }}</span>
+					{% elif object.category == "Mouse" or object.category == "Keyboard" %}
+						<span class="badge badge-pill badge-danger">{{ object.category }}</span>
+					{% else %}
+						<span class="badge badge-pill badge-dark">{{ object.category }}</span>
+					{% endif %}
+	</h2>
+	<h2>Plant: <small class="text-primary">{{ object.plant }}</small></h2>
+	<h2>Location: <small class="text-primary">{{ object.location }}</small></h2>
+	<h2>Department: <small class="text-primary">{{ object.department }}</small></h2>
+	<h2>Username: <small class="text-primary">{{ object.username }}</small></h2>
+	<h2>Hostname: <small class="text-primary">{{ object.hostname }}</small></h2>
+	<h2>Email ID: <small class="text-primary">{{ object.email_id }}</small></h2>
+	<h2>Model: <small class="text-primary">{{ object.model }}</small></h2>
+	<h2>Asset Code: <small class="text-primary">{{ object.asset_code }}</small></h2>
+	<h2>Date of Purchase: <small class="text-primary">{{ object.date_of_purchase }}</small></h2>
+	<h2>Warranty Expiry: <small class="text-primary">{{ object.warranty_expiry }}</small></h2>
+	<h2>Configuration: <small class="text-primary">{{ object.configuration }}</small></h2>
+	<h2>Amount: <small class="text-primary">{{ object.amount }}</small></h2>
+	<h2>OS: <small class="text-primary">{{ object.operating_system }}</small></h2>
+</div>
+
+{% endblock %}

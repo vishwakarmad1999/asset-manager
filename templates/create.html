@@ -1,0 +1,17 @@
+{% extends "templates/base.html" %}
+{% block title %}{{ block.super }} Add {% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+	{{ errors }}
+{% endif %}
+
+<div align="center" class="form">
+	<form method='POST' style="font-size: 120%; width: 30%;"> {% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" class="btn btn-outline-success btn-block" value="Add">
+	</form>
+</div>
+
+{% endblock %}
