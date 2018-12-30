@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from items.views import ItemsListView
+from items.views import ItemsListView, add_from_excel
 from django.contrib import admin
 from django.contrib.auth.views import (PasswordResetView, 
                                PasswordResetCompleteView,
@@ -28,7 +28,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     url(r'^$', ItemsListView.as_view(), name = 'home'),
-    # url(r'^add-excel', add_from_excel, name = 'add-excel'),
+    url(r'^add-excel', add_from_excel, name = 'add-excel'),
     url(r'logout/$', LogoutView.as_view(), name = 'logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^a/', include('items.urls', namespace = 'asset')),

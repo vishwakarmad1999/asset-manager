@@ -5,7 +5,7 @@ User = settings.AUTH_USER_MODEL
 
 class Asset(models.Model):
 	user 				= models.ForeignKey(User, on_delete = models.CASCADE)	
-	asset_id			= models.CharField(max_length = 10, primary_key = True)
+	asset_id			= models.CharField(max_length = 10, blank = True, null = True)
 	plant				= models.CharField(max_length = 20, blank = True, null = True)
 	location			= models.CharField(max_length = 20, blank = True, null = True)
 	department			= models.CharField(max_length = 20, blank = True, null = True)

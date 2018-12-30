@@ -5,8 +5,8 @@
 {% block content %} 
 
 <div align="center">
-	<a href="{% url 'asset:update' object.asset_id %}" class="badge badge-pill badge-warning" style="font-size: 150%">Update</a>
-	<a href="{% url 'asset:delete' object.asset_id %}" class="badge badge-pill badge-danger" style="font-size: 150%">Delete</a>
+	<a href="{% url 'asset:update' object.id %}" class="badge badge-pill badge-warning" style="font-size: 150%">Update</a>
+	<a href="{% url 'asset:delete' object.id %}" class="badge badge-pill badge-danger" style="font-size: 150%">Delete</a>
 </div>
 
 <div class="text-justify container">

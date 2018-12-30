@@ -14,6 +14,7 @@ from django.db.models import Q
 import datetime
 import pandas as pd
 from math import isnan
+from django.http import Http404
 
 # Create your views here.
 
@@ -91,41 +92,43 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(ItemDeleteView, self).get_context_data(*args, **kwargs)
-		obj = get_object_or_404(Asset, asset_id__iexact = kwargs['object'].asset_id, user = self.request.user)
+		obj = get_object_or_404(Asset, id__iexact = kwargs['object'].id, user = self.request.user)
 		return context
 
 
-# def add_from_excel(request):
-# 	template_name = 'templates/create.html'
-# 	df = pd.read_excel('templates/IT_Asset_SEZ.xlsx', skiprows = 2)
+def add_from_excel(request):
+	raise Http404
+	# template_name = 'templates/create.html'
+	# df = pd.read_excel('templates/IT_Asset_SEZ.xlsx', skiprows = 2)
 	
-# 	len_df = len(df)
-# 	df.loc[171]['Amount'] = 130000
+	# len_df = len(df)
+	# df.loc[171]['Amount'] = 130000
 
-# 	for i in range(len_df):
-# 		obj = Asset()
-# 		obj.user 			= request.user
-# 		obj.category 		= df.loc[i]['Category']
-# 		obj.plant 			= df.loc[i]['Plant']
-# 		obj.location 		= df.loc[i]['LOCATION']
-# 		obj.department 		= df.loc[i]['Department']
-# 		obj.username 		= df.loc[i]['User Name']
-# 		obj.hostname 		= df.loc[i]['Host Name']
-# 		obj.email_id 		= df.loc[i]['EMail ID']
-# 		obj.model 			= df.loc[i]['MODEL']
+	# for i in range(len_df):
+	# 	obj = Asset()
+	# 	obj.user 			= request.user
+	# 	obj.category 		= df.loc[i]['Category']
+	# 	obj.plant 			= df.loc[i]['Plant']
+	# 	obj.location 		= df.loc[i]['LOCATION']
+	# 	obj.department 		= df.loc[i]['Department']
+	# 	obj.username 		= df.loc[i]['User Name']
+	# 	obj.hostname 		= df.loc[i]['Host Name']
+	# 	obj.email_id 		= df.loc[i]['EMail ID']
+	# 	obj.model 			= df.loc[i]['MODEL']
+	# 	obj.asset_code 		= df.loc[i]['ASSET CODE ']
 		
-# 		if type(df.loc[i]['Date of Purchase']) == datetime.datetime:
-# 			obj.date_of_purchase= df.loc[i]['Date of Purchase'].date()
-# 		if type(df.loc[i]['Warrenty expiry']) == datetime.datetime:
-# 			obj.warranty_expiry	= df.loc[i]['Warrenty expiry'].date()
+	# 	if type(df.loc[i]['Date of Purchase']) == datetime.datetime:
+	# 		obj.date_of_purchase= df.loc[i]['Date of Purchase'].date()
+	# 	if type(df.loc[i]['Warrenty expiry']) == datetime.datetime:
+	# 		obj.warranty_expiry	= df.loc[i]['Warrenty expiry'].date()
 		
-# 		obj.configuration	= df.loc[i]['Configuration']
+	# 	obj.configuration	= df.loc[i]['Configuration']
 		
-# 		if df.loc[i]['Amount'].__class__ == type(1):
-# 			obj.amount		= df.loc[i]['Amount']
+	# 	if df.loc[i]['Amount'].__class__ == type(1):
+	# 		obj.amount		= df.loc[i]['Amount']
 
-# 		obj.operating_system= df.loc[i]['OS']
-# 		obj.asset_id 		= df.loc[i]['Asset ID']
-# 		obj.save()
+	# 	obj.operating_system= df.loc[i]['OS']
+	# 	obj.asset_id 		= df.loc[i]['Asset ID']
+	# 	obj.save()
 
-# 	return render(request, template_name, {})
+	# return render(request, template_name, {})
