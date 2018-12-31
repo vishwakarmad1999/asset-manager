@@ -4,6 +4,7 @@
 
 {% block content %} 
 
+{% if is_verified %}
 <div align="center">
 	<a href="{% url 'asset:update' object.id %}" class="badge badge-pill badge-warning" style="font-size: 150%">Update</a>
 	<a href="{% url 'asset:delete' object.id %}" class="badge badge-pill badge-danger" style="font-size: 150%">Delete</a>
@@ -38,5 +39,7 @@
 	<h2>Amount: <small class="text-primary">{{ object.amount }}</small></h2>
 	<h2>OS: <small class="text-primary">{{ object.operating_system }}</small></h2>
 </div>
-
+{% else %}
+<h2 class="text-center display-4"><a href='{% url "verify_user" %}'>Verify yourself first</a></h2>
+{% endif %}
 {% endblock %}

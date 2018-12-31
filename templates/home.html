@@ -2,6 +2,7 @@
 
 {% block title %}{{ block.super }}Home{% endblock %}
 {% block content %}
+{% if isverified %}
 	<div align="center">
 		<form method="GET">
 			<input type="text" name="q" placeholder="dd/mm/yyyy for dates">
@@ -60,4 +61,7 @@
 	{% else %}
 	<h1 class="display-4 text-center">There is nothing to show, <a href="{% url 'asset:create' %}">Add one</a></h1>
 	{% endif %}
+{% else %}
+<h2 class="text-center display-4"><a href='{% url "verify_user" %}'>Verify yourself first</a></h2>
+{% endif %}
 {% endblock %}

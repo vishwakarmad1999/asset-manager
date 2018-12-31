@@ -1,0 +1,14 @@
+{% extends 'templates/base.html' %}
+
+{% block title %} {{ block.super }} Verify {% endblock %}
+
+{% block content %}
+<div class="text-center display-4 container">
+	<h2>Verify yourself first</h2>
+	<form method="POST">
+		{% csrf_token %}
+		OTP: <input type="number" name="otp">
+			 <input type="submit" value="Verify">
+	</form>
+</div>
+{% endblock %}

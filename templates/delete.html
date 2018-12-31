@@ -3,6 +3,7 @@
 {% block title %} {{ block.super }} Delete {% endblock %}
 
 {% block content %}
+{% if is_verified %}
 <div align="center" class="display-4">
 	<form method="post">
 	{% csrf_token %}
@@ -10,4 +11,7 @@
     <input type="submit" class="btn btn-danger" value="Confirm">
 </form>
 </div>
+{% else %}
+<h2 class="text-center display-4"><a href='{% url "verify_user" %}'>Verify yourself first</a></h2>
+{% endif %}
 {% endblock %}
