@@ -12,8 +12,8 @@ from .forms import AssetModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 import datetime
-import pandas as pd
-from math import isnan
+# import pandas as pd
+# from math import isnan
 from django.http import Http404
 
 # Create your views here.
@@ -54,7 +54,7 @@ class ItemsListView(LoginRequiredMixin, ListView):
 			if len(search_result) == 0:
 				context['flag'] = False
 			else:
-				context['search_result'] = search_result
+				context['search_result'] = search_result.distinct()
 
 		return render(request, template_name, context)
 
@@ -102,33 +102,82 @@ def add_from_excel(request):
 	# df = pd.read_excel('templates/IT_Asset_SEZ.xlsx', skiprows = 2)
 	
 	# len_df = len(df)
-	# df.loc[171]['Amount'] = 130000
+	# # df.loc[171]['Amount'] = 130000
 
-	# for i in range(len_df):
+	# count = Asset.objects.count()
+
+	# while count < 217:
 	# 	obj = Asset()
 	# 	obj.user 			= request.user
-	# 	obj.category 		= df.loc[i]['Category']
-	# 	obj.plant 			= df.loc[i]['Plant']
-	# 	obj.location 		= df.loc[i]['LOCATION']
-	# 	obj.department 		= df.loc[i]['Department']
-	# 	obj.username 		= df.loc[i]['User Name']
-	# 	obj.hostname 		= df.loc[i]['Host Name']
-	# 	obj.email_id 		= df.loc[i]['EMail ID']
-	# 	obj.model 			= df.loc[i]['MODEL']
-	# 	obj.asset_code 		= df.loc[i]['ASSET CODE ']
-		
-	# 	if type(df.loc[i]['Date of Purchase']) == datetime.datetime:
-	# 		obj.date_of_purchase= df.loc[i]['Date of Purchase'].date()
-	# 	if type(df.loc[i]['Warrenty expiry']) == datetime.datetime:
-	# 		obj.warranty_expiry	= df.loc[i]['Warrenty expiry'].date()
-		
-	# 	obj.configuration	= df.loc[i]['Configuration']
-		
-	# 	if df.loc[i]['Amount'].__class__ == type(1):
-	# 		obj.amount		= df.loc[i]['Amount']
 
-	# 	obj.operating_system= df.loc[i]['OS']
-	# 	obj.asset_id 		= df.loc[i]['Asset ID']
+	# 	obj.category 		= df.loc[count]['Category']
+
+	# 	obj.plant 			= df.loc[count]['Plant']
+
+	# 	obj.location 		= df.loc[count]['LOCATION']
+
+	# 	obj.department 		= df.loc[count]['Department']
+
+	# 	try:
+	# 		if isnan(df.loc[count]['User Name']):
+	# 			obj.username= None
+	# 	except:
+	# 		obj.username 	= df.loc[count]['User Name']
+		
+	# 	try:
+	# 		if isnan(df.loc[count]['Host Name']):
+	# 			obj.username= None
+	# 	except:
+	# 		obj.hostname 	= df.loc[count]['Host Name']
+
+	# 	try:
+	# 		if isnan(df.loc[count]['EMail ID']):
+	# 			obj.email_id= 'none@none.com'
+	# 	except:
+	# 		obj.email_id 	= df.loc[count]['EMail ID']
+
+	# 	try:
+	# 		if isnan(df.loc[count]['MODEL']):
+	# 			obj.model 	= None
+	# 	except:
+	# 		obj.model 		= df.loc[count]['MODEL']
+
+	# 	try:
+	# 		if isnan(df.loc[count]['ASSET CODE ']):
+	# 			obj.asset_code = None
+	# 	except:
+	# 		obj.asset_code 	= df.loc[count]['ASSET CODE ']
+		
+	# 	if type(df.loc[count]['Date of Purchase']) == datetime.datetime:
+	# 		obj.date_of_purchase= df.loc[count]['Date of Purchase'].date()
+	# 	if type(df.loc[count]['Warrenty expiry']) == datetime.datetime:
+	# 		obj.warranty_expiry	= df.loc[count]['Warrenty expiry'].date()
+		
+	# 	try:
+	# 		if isnan(df.loc[count]['Configuration']):
+	# 			obj.configuration	= None
+	# 	except:
+	# 		obj.configuration	= df.loc[count]['Configuration']
+		
+	# 	if df.loc[count]['Amount'].__class__ == type(1):
+	# 		obj.amount			= df.loc[count]['Amount']
+
+	# 	try:
+	# 		if isnan(df.loc[count]['OS']):
+	# 			obj.operating_system= None
+	# 	except:
+	# 		obj.operating_system= df.loc[count]['OS']
+
+	# 	try:
+	# 		if isnan(df.loc[count]['Asset ID']):
+	# 			obj.asset_id 	= None
+	# 	except:
+	# 		obj.asset_id 		= df.loc[count]['Asset ID']
+
 	# 	obj.save()
+
+	# 	count += 1
+
+	# print(count)
 
 	# return render(request, template_name, {})
