@@ -7,7 +7,6 @@
 	{{ errors }}
 {% endif %}
 
-{% if is_verified %}
 <div align="center">
 	<form method='POST' style="font-size: 120%; width: 30%;"> 
 		{% csrf_token %}
@@ -15,8 +14,5 @@
 		<input type="submit" class="btn btn-outline-primary btn-block" value="Update">
 	</form>
 </div>
-{% else %}
-<h2 class="text-center display-4"><a href='{% url "verify_user" %}'>Verify yourself first</a></h2>
-{% endif %}
 
 {% endblock %}

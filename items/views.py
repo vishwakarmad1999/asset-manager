@@ -11,44 +11,21 @@ from .models import Asset
 from .forms import AssetModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-# import datetime
-# import pandas as pd
-# from math import isnan
+import datetime
+import pandas as pd
+from math import isnan
 from django.http import Http404
-from django.contrib.auth import get_user_model
-from authenticate_user.models import AuthenticateUser
-from django.contrib.auth.views import LogoutView
 
 # Create your views here.
 
-class VerififyOTP:
-	def get_user(self, uname):
-		User = get_user_model()
-		User = User.objects.filter(username = uname)[0]
-		return User
-
-
-	def is_verified(self, user):
-		User = self.get_user(user.username)
-		isvr = User.authenticateuser.is_verified
-		return isvr	
-
-
-class ItemsListView(LoginRequiredMixin, ListView, VerififyOTP):
+class ItemsListView(LoginRequiredMixin, ListView):
 	def get(self, request, *args, **kwargs):
-		if self.is_verified(request.user):
-			is_verified = True
-		else:
-			is_verified = False
-
 		template_name = 'templates/home.html'
-
 		queryset = Asset.objects.filter(user = request.user)
 
 		context = {
 			"object_list": queryset,
-			"flag": True,
-			"isverified": is_verified,
+			"flag": True
 		}
 
 		if request.GET and request.GET['q'].strip():
@@ -82,28 +59,12 @@ class ItemsListView(LoginRequiredMixin, ListView, VerififyOTP):
 		return render(request, template_name, context)
 
 
-class ItemView(DetailView, VerififyOTP):
+class ItemView(DetailView):
 	template_name = 'templates/item.html'
-
-	def get_queryset(self):
-		queryset = Asset.objects.filter(user = self.request.user)
-		return queryset
+	queryset = Asset.objects.all()
 
 
-	def get_context_data(self, *args, **kwargs):
-		context = super(ItemView, self).get_context_data(*args, **kwargs)
-
-		if self.is_verified(self.request.user):
-			is_verified = True
-		else:
-			is_verified = False
-
-		context['is_verified'] = is_verified
-
-		return context
-
-
-class ItemCreateView(CreateView, LoginRequiredMixin, VerififyOTP):
+class ItemCreateView(CreateView, LoginRequiredMixin):
 	template_name = "templates/create.html"
 	success_url = "/"
 	form_class = AssetModelForm
@@ -113,56 +74,24 @@ class ItemCreateView(CreateView, LoginRequiredMixin, VerififyOTP):
 		instance.user = self.request.user
 		return super(ItemCreateView, self).form_valid(form)
 
-	def get_context_data(self, *args, **kwargs):
-		context = super(ItemCreateView, self).get_context_data(*args, **kwargs)
 
-		if self.is_verified(self.request.user):
-			is_verified = True
-		else:
-			is_verified = False
-
-		context['is_verified'] = is_verified
-
-		return context	
-
-
-class ItemUpdateView(LoginRequiredMixin, UpdateView, VerififyOTP):
+class ItemUpdateView(LoginRequiredMixin, UpdateView):
 	template_name = "templates/update.html"
 	success_url = "/"
 	form_class = AssetModelForm
-
-	def get_context_data(self, *args, **kwargs):
-		context = super(ItemUpdateView, self).get_context_data(*args, **kwargs)
-
-		if self.is_verified(self.request.user):
-			is_verified = True
-		else:
-			is_verified = False
-
-		context['is_verified'] = is_verified
-
-		return context
 
 	def get_queryset(self):
 		queryset = Asset.objects.filter(user = self.request.user)
 		return queryset
 
 
-class ItemDeleteView(LoginRequiredMixin, DeleteView, VerififyOTP):
+class ItemDeleteView(LoginRequiredMixin, DeleteView):
 	template_name = 'templates/delete.html'
 	model = Asset
 	success_url = '/'
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(ItemDeleteView, self).get_context_data(*args, **kwargs)
-
-		if self.is_verified(self.request.user):
-			is_verified = True
-		else:
-			is_verified = False
-
-		context['is_verified'] = is_verified
-
 		obj = get_object_or_404(Asset, id__iexact = kwargs['object'].id, user = self.request.user)
 		return context
 
@@ -203,9 +132,3 @@ def add_from_excel(request):
 	# 	obj.save()
 
 	# return render(request, template_name, {})
-
-
-def logout_view(request):
-	AuthenticateUser.objects.filter(user = request.user).update(is_verified = False)
-	AuthenticateUser.objects.filter(user = request.user).update(otp = -1)
-	return redirect('/admin/logout')
