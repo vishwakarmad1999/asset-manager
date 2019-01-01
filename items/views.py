@@ -12,8 +12,8 @@ from .forms import AssetModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 import datetime
-# import pandas as pd
-# from math import isnan
+import pandas as pd
+from math import isnan
 from django.http import Http404
 
 # Create your views here.
@@ -102,7 +102,6 @@ def add_from_excel(request):
 	# df = pd.read_excel('templates/IT_Asset_SEZ.xlsx', skiprows = 2)
 	
 	# len_df = len(df)
-	# # df.loc[171]['Amount'] = 130000
 
 	# count = Asset.objects.count()
 
